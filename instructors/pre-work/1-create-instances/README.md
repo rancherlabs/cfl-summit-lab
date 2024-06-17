@@ -12,8 +12,24 @@ This creates the instances that will be used by attendees on Step 1 to deploy Ra
 5. Terraform:
    1. `terraform init`
    2. `terrform apply`
-6. The output from `terraform apply` will provide a list of node IPs and SSH privates keys, to show this again, use `terraform output`.
-7. Distribute the list of IPs and keys to attendees, each attendees can have a number (eg, cfl-X) and use the associated IP/key as their node.
+6. The output from `terraform apply` will provide a list of node IPs and SSH private keys, to show this again, use `terraform output`
+   1. Example:
+```
+Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+node-files = [
+  "cfl-lab-1: cfl-lab-1-ssh_private_key.pem",
+  "cfl-lab-2: cfl-lab-2-ssh_private_key.pem",
+]
+node-ips = [
+  "cfl-lab-1: 52.41.114.170",
+  "cfl-lab-2: 54.201.184.70",
+]
+ssh-username = "ubuntu"
+```
+7. Distribute the list of IPs and keys to attendee, each attendees can have a number (eg, cfl-X) and use the associated IP/key as their node.
 
 ## Cleanup
 
