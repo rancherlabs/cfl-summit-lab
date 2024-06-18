@@ -8,11 +8,12 @@ This creates the instances that will be used by attendees on Step 1 to deploy Ra
 2. Login to Okta, click on "AWS Landing Zone"
 3. Select the "Support Engineering" AWS account drop down
 4. Click the "Access keys" button and copy the contents from Option 1 to export the variables, these credentials will be valid for ~12 hours
-   1. Alternatively, you can hard code long-lived credentials in the terraform.tfvars file
-5. Terraform:
+   1. Alternatively, you can hard code long-lived credentials in the terraform.tfvars file (next step)
+4. Update the terraform.tfvars file to suit the session, eg `attendees` and `aws_region`
+6. Terraform:
    1. `terraform init`
    2. `terrform apply`
-6. The output from `terraform apply` will provide a list of node IPs and SSH private keys, to show this again, use `terraform output`
+7. The output from `terraform apply` will provide a list of node IPs and SSH private keys, to show this again, use `terraform output`
    1. Example:
 ```
 Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
@@ -29,7 +30,7 @@ node-ips = [
 ]
 ssh-username = "ubuntu"
 ```
-7. Distribute the list of IPs and keys to attendee, each attendees can have a number (eg, cfl-X) and use the associated IP/key as their node.
+7. Distribute the list of IPs and keys to attendees, each attendee can have a number (eg, cfl-X) and use the associated IP/key as their node. This could be possible by providing a google drive folder with the keys and list of node IPs
 
 ## Cleanup
 
