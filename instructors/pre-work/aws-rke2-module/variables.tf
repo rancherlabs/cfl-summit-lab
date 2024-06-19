@@ -148,7 +148,8 @@ variable "instance_security_group" {
 variable "ssh_username" {
   type        = string
   description = "Username used for SSH with sudo access"
-  default     = "ubuntu"
+  default     = "ec2-user"
+  # default     = "ubuntu"
   nullable    = false
 }
 

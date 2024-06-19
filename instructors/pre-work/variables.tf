@@ -63,3 +63,7 @@ variable "aws_region" {
     error_message = "Invalid Region specified!"
   }
 }
+
+variable "spot_instances" {
+  default = false
+}
