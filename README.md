@@ -2,11 +2,16 @@
 
 ## Lab objectives:
 
-In this lab session we will aim to: 
+In this lab session we will aim to complete three exercises: 
 
-1. Install Rancher on an RKE2 node
+1. Install Rancher on an RKE2 cluster
 2. Provision a downstream RKE2 cluster using Rancher
 3. Deploy an application using Fleet
+
+Bonus rounds:
+4. Take an etcd snapshot of the downstream cluster
+5. Deploy an application using the HelmChart controller
+6. Restore the etcd snapshot taken in 4. to revert the app deployment
 
 ## Lab steps
 
@@ -14,7 +19,7 @@ In this lab session we will aim to:
 
 - Obtain your node IPs and private SSH keys from the instructor, these will be your nodes to use throughout the lab session
   - There are two node IPs:
-    - The node with `r` is the Rancher node used in excercise 1
+    - The node with `r` is the Rancher node used in exercise 1
     - The node with `ds` is the downstream node used in exercise 2
 
 ### 1 - Install Rancher
@@ -24,8 +29,8 @@ Navigate to the Rancher install guide in the link below:
 
 1. Follow the steps to add the helm repo and create the `cattle-system` namespace. Choose the `latest` helm repository
 2. From step 3 onwards, in this lab the "Rancher-generated TLS certificate" approach is recommended, where cert-manager will need to be installed (step 4)
-3. For step 5, a hostname is needed for Rancher. You can use your own custom domain name, however for lab purposes it is recommended to generate a quick hostname with `.nip.io`, just append this to your Rancher node Public IP: eg, `5.6.7.8.nip.io`
-   1. If you are unsure about the nodes Public IP, use: `curl ifconfig.io` from the command line on the node
+3. For step 5, a hostname is needed for Rancher. You can use your own custom domain name, however for lab purposes, it is recommended to generate a quick hostname with `.nip.io`, just append this to your Rancher node Public IP: eg, `5.6.7.8.nip.io`
+   1. If you are unsure about the Public IP, use: `curl ifconfig.io` from the command line on the node
    2. Use this hostname for the `--set hostname` flag when running `helm install`, eg: `--set hostname=5.6.7.8.nip.io`
    3. Supply a bootstrap password to use when logging into Rancher for the first time with the `--set bootstrapPassword` flag
    4. Replace the `<CHART_REPO>` portion of the `helm install` command with `latest`, if latest was the repo chosen in the first step of this exercise
@@ -33,11 +38,13 @@ Navigate to the Rancher install guide in the link below:
 
 ### 2 - Create a downstream cluster
 
-- Details TBA
+- Details TBA (custom cluster)
 
 https://ranchermanager.docs.rancher.com/reference-guides/cluster-configuration/rancher-server-configuration/use-existing-nodes
 
 ### 3 - Deploy an application using Fleet
+
+- Details TBA
 
 ---
 
