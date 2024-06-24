@@ -55,13 +55,11 @@ Navigate to the Downstream cluster configuration guide in the link below:
 
 ### 2a - Create a downstream cluster (terraform)
 
-Change directory to the 2a-downstream-cluster directory of the cloned repo
+Change directory to the `2a-downstream-cluster` directory of the cloned repo
 
-1. Update the terraform.tfvars file to update the required variables (aws credentials, region, url, token, vpc details etc.)
+1. Update the `terraform.tfvars` file to update the required variables (aws credentials, region, url, token, vpc details etc.)
 2. Initialise the terraform modules: `terraform init`
 3. Create the resources: `terraform apply`
-
-Clean up: `terraform destroy`
 
 ### 3 - Take an etcd snapshot
 
@@ -82,6 +80,13 @@ Navigate to Cluster Management in the Rancher dashboard
 4. Paste in a HelmChart, or Kubernetes manifest
 
 Example: https://docs.rke2.io/helm#using-the-helm-crd
+
+### Cleanup
+
+```bash
+cd 2a-downstream-cluster # if not in the directory
+terraform destroy
+```
 
 ---
 
