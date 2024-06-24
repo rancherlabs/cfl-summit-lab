@@ -43,7 +43,11 @@ The Rancher install is managed with helm
 
 The second exercise we'll provision a Kubernetes cluster from a fresh SLES node
 
-We will provision an RKE2 cluster in Rancher as a *custom* cluster.. what's that?
+There are two exercises to provision downstream RKE2 clusters in Rancher:
+  - A custom (existing node) cluster
+  - A node driver (infrastructure provider) cluster
+
+What's the difference?
 
 ### Rancher cluster types
 
