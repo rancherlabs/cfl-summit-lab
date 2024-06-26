@@ -55,7 +55,7 @@ Navigate to the Downstream cluster configuration guide in the link below:
 
 ### 2a - Create a downstream cluster (terraform)
 
-Change directory to the `2a-downstream-cluster` directory of the cloned repo
+Change directory to the `2a-downstream-cluster` directory of the cloned repo, `terraform` is preinstalled on the Rancher node (`r` in the name)
 
 1. Update the `terraform.tfvars` file to update the required variables (aws credentials, region, url, token, vpc details etc.)
 2. Initialise the terraform modules: `terraform init`
