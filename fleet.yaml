@@ -1,21 +1,59 @@
 apiVersion: fleet.cattle.io/v1alpha1
-kind: Application
+kind: Fleet
+
 metadata:
-  name: hello-world-web-server
+  name: my-fleet
 spec:
-  deployment:
-    spec:
-      containers:
-      - name: web-server
-        image: nginx:alpine
-        command: ["nginx", "-g", "daemon off;"]
-        ports:
-        - containerPort: 80
-  service:
-    type: LoadBalancer
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 3
+  strategy:
+    type: Recreate
+  updateStrategy:
+    type: RollingUpdate
+  maxSurgePercent: 25
+  podManagementPolicy: AlwaysReady
+  selfHealing: true
+
+template:
+  spec:
+    containers:
+    - name: webserver
+      image: nginx:latest
+      command: ["nginx", "-g", "daemon off;"]
+      ports:
+      - containerPort: 80
+
+deployment:
+  spec:
     selector:
-      app: hello-world-web-server
+      matchLabels:
+        app: my-app
+    replicas: 3
+    template:
+      spec:
+        containers:
+        - name: webserver
+          image: nginx:latest
+          command: ["nginx", "-g", "daemon off;"]
+          ports:
+          - containerPort: 80
+
+service:
+  selector:
+    app: my-app
+  ports:
+  - name: http
     port: 80
-  nodeports:
-  - name: web-server
-    nodePort: 30000
+    targetPort: 80
+  type: LoadBalancer
+
+nodeport:
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    port: 30080
+    targetPort: 80
+  type: NodePort
