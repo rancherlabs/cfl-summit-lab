@@ -1,0 +1,21 @@
+apiVersion: fleet.cattle.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-world-web-server
+spec:
+  deployment:
+    spec:
+      containers:
+      - name: web-server
+        image: nginx:alpine
+        command: ["nginx", "-g", "daemon off;"]
+        ports:
+        - containerPort: 80
+  service:
+    type: LoadBalancer
+    selector:
+      app: hello-world-web-server
+    port: 80
+  nodeports:
+  - name: web-server
+    nodePort: 30000
