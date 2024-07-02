@@ -95,7 +95,9 @@ Restore an etcd snapshot for the downstream cluster(s). Details in the link belo
 
 Choose the last option, to restore etcd, Kubernetes versions and cluster configuration
 
-### Cleanup (only if you completed exercise 2a)
+---
+
+# Cleanup (only if you completed exercise 2a)
 
 ```bash
 cd 2a-downstream-cluster # if not in the directory
