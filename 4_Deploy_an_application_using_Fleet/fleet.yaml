@@ -7,6 +7,6 @@ targets:
         environment: cfl
 
 resources:
-  - configmap.yaml
-  - deployment.yaml
-  - service.yaml
+  - 1_configmap.yaml
+  - 2_deployment.yaml
+  - 3_service.yaml
