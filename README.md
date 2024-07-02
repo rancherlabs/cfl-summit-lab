@@ -64,16 +64,20 @@ Pre-work:
 2. Initialise the terraform modules: `terraform init`
 3. Create the resources: `terraform apply`
 
-### 3 - Take an etcd snapshot
+### 3 - Deploy an application using Fleet
+
+- Details TBA
+
+---
+
+# Bonus Rounds
+
+### 1 - Take an etcd snapshot
 
 Take an etcd snapshot of the downstream cluster(s). Details in the link below:
   * https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/backup-restore-and-disaster-recovery/back-up-rancher-launched-kubernetes-clusters#one-time-snapshots
 
-### 4 - Deploy an application using Fleet
-
-- Details TBA
-
-### 5 - Deploy an application using a HelmChart (Add-On Config)
+### 2 - Deploy an application using a HelmChart (Add-On Config)
 
 Navigate to Cluster Management in the Rancher dashboard
 
@@ -83,6 +87,13 @@ Navigate to Cluster Management in the Rancher dashboard
 4. Paste in a HelmChart, or Kubernetes manifest
 
 Example: https://docs.rke2.io/helm#using-the-helm-crd
+
+### 3 - Restore the etcd snapshot
+
+Restore an etcd snapshot for the downstream cluster(s). Details in the link below:
+  * https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/backup-restore-and-disaster-recovery/restore-rancher-launched-kubernetes-clusters-from-backup#restoring-a-cluster-from-a-snapshot
+
+Choose the last option, to restore etcd, Kubernetes versions and cluster configuration
 
 ### Cleanup
 
