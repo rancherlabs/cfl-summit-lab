@@ -9,9 +9,9 @@ In this lab session we will aim to complete three exercises:
 3. Deploy an application using Fleet
 
 Bonus rounds:
-4. Take an etcd snapshot of the downstream cluster
-5. Deploy an application using the HelmChart controller
-6. Restore the etcd snapshot taken in 4. to revert the app deployment
+1. Take an etcd snapshot of the downstream cluster
+2. Deploy an application using the HelmChart controller
+3. Restore the etcd snapshot taken in 4. to revert the app deployment
 
 ## Lab steps
 
