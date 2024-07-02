@@ -1,11 +1,6 @@
 # fleet.yaml
 defaultNamespace: default
 
-targets:
-  - clusterSelector:
-      matchLabels:
-        environment: cfl
-
 resources:
   - 1_configmap.yaml
   - 2_deployment.yaml
