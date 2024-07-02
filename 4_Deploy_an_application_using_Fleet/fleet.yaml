@@ -1,7 +1,3 @@
 # fleet.yaml
-defaultNamespace: default
+namespace: default
 
-resources:
-  - 1_configmap.yaml
-  - 2_deployment.yaml
-  - 3_service.yaml
