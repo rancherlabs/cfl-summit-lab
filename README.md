@@ -40,7 +40,7 @@ Navigate to the Rancher install guide in the link below:
    
    Example command:
    ```
-   helm install rancher rancher-latest/rancher --namespace cattle-system --set hostname=35.88.67.40.nip.io --set replicas 1
+   helm install rancher rancher-latest/rancher --namespace cattle-system --set hostname=35.88.67.40.nip.io --set replicas=1
    ```
 
 ### 2 - Create a downstream cluster (Rancher Dashboard)
