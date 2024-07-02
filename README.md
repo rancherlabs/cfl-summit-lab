@@ -21,14 +21,15 @@ Bonus rounds:
   - There are two node IPs and private key files:
     - The node with `r` is the Rancher node used in exercise 1
     - The node with `ds` is the downstream node used in exercise 2
-- Clone this repo to either your laptop or the Rancher node (`r`): `git clone https://github.com/rancherlabs/cfl-summit-lab.git`
+  - **SSH username**: `ec2-user`
+  - `sudo` is available once logged in
 
 ### 1 - Install Rancher
 
 Navigate to the Rancher install guide in the link below:
   * https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/install-upgrade-on-a-kubernetes-cluster#install-the-rancher-helm-chart
 
-1. SSH into the node (with `r` in the name), *note* you can use `sudo` once logged in
+1. SSH into the Rancher node (with `r` in the name)
 2. Follow the steps to add the helm repo and create the `cattle-system` namespace. Choose the `latest` helm repository
 3. From step 3 onwards, in this lab the "Rancher-generated TLS certificate" approach is recommended, where cert-manager will need to be installed (step 4)
 4. For step 5, a hostname is needed for Rancher. You can use your own custom domain name, however for lab purposes, it is recommended to generate a quick hostname with `.nip.io`, just append this to your Rancher node Public IP: eg, `5.6.7.8.nip.io`
@@ -48,14 +49,16 @@ Navigate to the Rancher install guide in the link below:
 Navigate to the Downstream cluster configuration guide in the link below:
   * https://ranchermanager.docs.rancher.com/reference-guides/cluster-configuration/rancher-server-configuration/use-existing-nodes
 
-1. SSH into the node (with `ds` in the name), *note* you can use `sudo` once logged in
+1. SSH into the downstream node (with `ds` in the name)
 2. Follow the steps in the configuration guide (link above) from step 2 (Create the **Custom Cluster**)
 3. At the end of step 2 you will use this node (with `ds` in the name) to run the provisioning command
 4. Step 3 (Tag Resources) can be ignored
 
 ### 2a - Create a downstream cluster (terraform)
 
-Change directory to the `2a-downstream-cluster` directory of the cloned repo, `terraform` is preinstalled on the Rancher node (`r` in the name)
+Pre-work:
+  - Clone this repo to the Rancher node (`r`): `git clone https://github.com/rancherlabs/cfl-summit-lab.git`
+  - Change directory to the `2a-downstream-cluster` directory of the cloned repo, `terraform` is preinstalled on the node
 
 1. Update the `terraform.tfvars` file to update the required variables (aws credentials, region, url, token, vpc details etc.)
 2. Initialise the terraform modules: `terraform init`
