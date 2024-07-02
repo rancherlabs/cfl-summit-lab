@@ -12,7 +12,6 @@ This repository contains the necessary resources to deploy a web server that ser
 ## Prerequisites
 
 - Kubernetes cluster managed by Rancher 2.8
-- Rancher Fleet configured
 
 ## 1. Deploy via Rancher 2.8 UI
 
@@ -20,13 +19,13 @@ This repository contains the necessary resources to deploy a web server that ser
 Open your Rancher 2.8 UI in your browser and log in.
 
 ### Navigate to Fleet:
-From the left-hand menu, click on `Continuous Delivery` and then `Fleet`.
+From the left-hand menu, click on `Continuous Delivery`
 
 ### Create a New GitRepo:
-- Click on `Git Repos` and then `Create`.
+- Click on `Git Repos` and then `Add Repository`.
 - Fill in the details:
-  - **Name**: `webserver-deployment`
-  - **Repository URL**: `https://github.com/yourusername/yourrepository`
+  - **Name**: `deployedwithfleet`
+  - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
   - **Branch**: `main` (or the branch you want to deploy from)
   - **Paths**: Leave as default to deploy all resources, or specify paths if needed.
 
@@ -57,5 +56,3 @@ Open a web browser and access the web server using the NodePort. For example, `h
 ## Conclusion
 
 By following the steps in this guide, you will have deployed a web server using Rancher Fleet. For any issues, please open an issue in this repository or refer to the Rancher documentation.
-
-Feel free to customize the `README.md` file according to your needs. Let me know if you need further assistance!
