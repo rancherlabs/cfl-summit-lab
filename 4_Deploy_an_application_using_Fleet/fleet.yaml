@@ -1,0 +1,12 @@
+# fleet.yaml
+defaultNamespace: default
+
+targets:
+  - clusterSelector:
+      matchLabels:
+        environment: cfl
+
+resources:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
