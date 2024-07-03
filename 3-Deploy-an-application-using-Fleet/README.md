@@ -4,7 +4,7 @@ This repository contains the necessary resources to deploy a web server that ser
 
 ## Files
 
-- `fleet.yaml`: Fleet configuration file. See `https://fleet.rancher.io/ref-fleet-yaml`
+- `fleet.yaml`: Fleet configuration file.
 - `1_configmap.yaml`: Defines the ConfigMap containing the default HTML page.
 - `2_deployment.yaml`: Defines the Deployment of the web server.
 - `3_service.yaml`: Defines the NodePort Service to expose the web server.
@@ -24,18 +24,16 @@ From the left-hand menu, click on `Continuous Delivery`
 ### Create a New GitRepo:
 - Click on `Git Repos` and then `Create`.
 - Fill in the details:
-  - **Name**: `fleetapp`
-  - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
+  - **Name**: `step4`
+  - **Repository URL**: `[https://github.com/rancherlabs/cfl-summit-lab]`
   - **Branch**: `main` (or the branch you want to deploy from)
   - **Paths**: Leave as default to deploy all resources, or specify paths if needed.
-- Click Next
 
 ### Set the Target Clusters:
-- In the `Targets` section, specify the clusters where you want the resources to be deployed. In this case select the cluster 
-- NOTE: You can also use labels to select clusters, e.g., `environment: dev`.
+- In the `Targets` section, specify the clusters where you want the resources to be deployed. You can use labels to select clusters, e.g., `environment: dev`.
 
 ### Create the GitRepo:
-- Click on `Save` to save and deploy the resources.
+- Click on `Create` to save and deploy the resources.
 
 Fleet will automatically sync the repository and deploy the resources to the specified clusters.
 
@@ -78,13 +76,13 @@ Open a web browser and access the web server using the NodePort. For example, `h
 
 ### Observe the Change:
 1. Fleet will detect the change in the ConfigMap and show a missing resource on the `Continuous Delivery` Dashboard.
-2. You will need to redploy the pods (to see the updated page) by accessing the Workloads, deployments and then selecting redeploy. (or delete the pod)
+2. You may need to redploy the pods by accessing the Workloads, deployments and then selecting redeploy. (or delete the pod)
 3. Verify the change by accessing the web server again. The page should now display the updated content.
 
 ### Revert the Changes:
-1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `fleetapp` repo.
+1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `step4` repo.
 
-2. Fleet will redeploy the original ConfigMap, reverting the web page to its initial state. (again the pods will need to be redeployed to see the changes)
+2. Fleet will redeploy the original ConfigMap, reverting the web page to its initial state.
 
 ### Auto-Healing Feature:
 - Fleet has an auto-healing feature that ensures the deployed resources match the desired state defined in the Git repository. If any changes are made directly in the cluster (e.g., someone manually edits the ConfigMap in the cluster), Fleet will automatically revert those changes to match the state defined in the repository.
