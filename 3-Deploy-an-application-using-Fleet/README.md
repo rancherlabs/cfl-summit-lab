@@ -47,6 +47,7 @@ Navigate to the `Service Discovery/Services` section and ensure that the `webser
 
 ### Access the Web Server:
 Navigate to the `Service Discovery/Services` section and click on the Target `30080/TCP` link to open the webpage presented by the webserver.
+
 NOTE: You can also open a web browser and access the web server using the NodePort. For example, `http://<NodeIP>:30080`.
 
 ## 3. Bonus Exercise: Modify ConfigMap and Observe Fleet
