@@ -4,7 +4,7 @@ This repository contains the necessary resources to deploy a web server that ser
 
 ## Files
 
-- `fleet.yaml`: Fleet configuration file. This is what fleet will look for to deploy. For details goto`https://fleet.rancher.io/ref-fleet-yaml`
+- `fleet.yaml`: Fleet configuration file. For details goto`https://fleet.rancher.io/ref-fleet-yaml`
 - `1_configmap.yaml`: Defines the ConfigMap containing the default HTML page.
 - `2_deployment.yaml`: Defines the Deployment of the web server.
 - `3_service.yaml`: Defines the NodePort Service to expose the web server.
