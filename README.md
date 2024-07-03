@@ -66,7 +66,7 @@ Pre-work:
 
 ### 3 - Deploy an application using Fleet
 
-Instruction are provided in this link
+Instructions to deploy a webserver using fleet are provided in this link
 * https://github.com/rancherlabs/cfl-summit-lab/blob/main/3-Deploy-an-application-using-Fleet/README.md
 
 ---
