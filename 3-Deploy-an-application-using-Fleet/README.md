@@ -24,7 +24,7 @@ From the left-hand menu, click on `Continuous Delivery`
 ### Create a New GitRepo:
 - Click on `Git Repos` and then `Create`.
 - Fill in the details:
-  - **Name**: `step4`
+  - **Name**: `fleetapp`
   - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
   - **Branch**: `main` (or the branch you want to deploy from)
   - **Paths**: Leave as default to deploy all resources, or specify paths if needed.
@@ -82,7 +82,7 @@ Open a web browser and access the web server using the NodePort. For example, `h
 3. Verify the change by accessing the web server again. The page should now display the updated content.
 
 ### Revert the Changes:
-1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `step4` repo.
+1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `fleetapp` repo.
 
 2. Fleet will redeploy the original ConfigMap, reverting the web page to its initial state. (again the pods will need to be redeployed to see the changes)
 
