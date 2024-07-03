@@ -37,16 +37,17 @@ From the left-hand menu, click on `Continuous Delivery`
 
 Fleet will automatically sync the repository and deploy the resources to the specified clusters.
 
-## 2. Verify the Deployment
+## 2. Verify the Deployment using the Rancher UI
 
 ### Check the Pods:
 Navigate to the `Workloads` section in Rancher UI and ensure that the `webserver` pod is running.
 
 ### Check the Service:
-Navigate to the `Services` section and ensure that the `webserver-service` is created and exposing the NodePort.
+Navigate to the `Service Discovery/Services` section and ensure that the `webserver-service` is created and exposing the NodePort.
 
 ### Access the Web Server:
-Open a web browser and access the web server using the NodePort. For example, `http://<NodeIP>:30080`.
+Navigate to the `Service Discovery/Services` section and click on the Target `30080/TCP` link to open the webpage presented by the webserver.
+NOTE: You can also open a web browser and access the web server using the NodePort. For example, `http://<NodeIP>:30080`.
 
 ## 3. Bonus Exercise: Modify ConfigMap and Observe Fleet
 
