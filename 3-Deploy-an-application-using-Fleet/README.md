@@ -28,12 +28,14 @@ From the left-hand menu, click on `Continuous Delivery`
   - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
   - **Branch**: `main` (or the branch you want to deploy from)
   - **Paths**: Leave as default to deploy all resources, or specify paths if needed.
+- Click Next
 
 ### Set the Target Clusters:
-- In the `Targets` section, specify the clusters where you want the resources to be deployed. You can use labels to select clusters, e.g., `environment: dev`.
+- In the `Targets` section, specify the clusters where you want the resources to be deployed. In this case select the cluster 
+- NOTE: You can also use labels to select clusters, e.g., `environment: dev`.
 
 ### Create the GitRepo:
-- Click on `Create` to save and deploy the resources.
+- Click on `Save` to save and deploy the resources.
 
 Fleet will automatically sync the repository and deploy the resources to the specified clusters.
 
