@@ -25,8 +25,8 @@ From the left-hand menu, click on `Continuous Delivery`
 - Click on `Git Repos` and then `Create`.
 - Fill in the details:
   - **Name**: `fleetapp`
-  - **Repository URL**: `[https://github.com/rancherlabs/cfl-summit-lab]`
-  - **Branch**: `main` (or the branch you want to deploy from)
+  - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
+  - **Branch**: `main`
   - **Paths**: `3-Deploy-an-application-using-Fleet`
 
 ### Set the Target Clusters:
