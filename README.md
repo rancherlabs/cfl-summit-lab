@@ -66,7 +66,8 @@ Pre-work:
 
 ### 3 - Deploy an application using Fleet
 
-- Details TBA
+Instruction are provided in this link
+* https://github.com/rancherlabs/cfl-summit-lab/blob/main/3-Deploy-an-application-using-Fleet/README.md
 
 ---
 
