@@ -4,7 +4,7 @@ This repository contains the necessary resources to deploy a web server that ser
 
 ## Files
 
-- `fleet.yaml`: Fleet configuration file.
+- `fleet.yaml`: Fleet configuration file. This is what fleet will look for to deploy. For details goto`https://fleet.rancher.io/ref-fleet-yaml`
 - `1_configmap.yaml`: Defines the ConfigMap containing the default HTML page.
 - `2_deployment.yaml`: Defines the Deployment of the web server.
 - `3_service.yaml`: Defines the NodePort Service to expose the web server.
@@ -24,13 +24,15 @@ From the left-hand menu, click on `Continuous Delivery`
 ### Create a New GitRepo:
 - Click on `Git Repos` and then `Create`.
 - Fill in the details:
-  - **Name**: `step4`
+  - **Name**: `fleetapp`
   - **Repository URL**: `[https://github.com/rancherlabs/cfl-summit-lab]`
   - **Branch**: `main` (or the branch you want to deploy from)
-  - **Paths**: Leave as default to deploy all resources, or specify paths if needed.
+  - **Paths**: `3-Deploy-an-application-using-Fleet`
 
 ### Set the Target Clusters:
-- In the `Targets` section, specify the clusters where you want the resources to be deployed. You can use labels to select clusters, e.g., `environment: dev`.
+- In the `Targets` section, specify the clusters where you want the resources to be deployed.
+
+NOTE: In larger environments you can use labels to select clusters, e.g., `environment: dev`.
 
 ### Create the GitRepo:
 - Click on `Create` to save and deploy the resources.
@@ -58,8 +60,8 @@ NOTE: You can also open a web browser and access the web server using the NodePo
    - Select the `web-content` ConfigMap.
 
 2. **Edit the ConfigMap**:
-   - Click on `⋮` (the three dots) next to the `web-content` ConfigMap and select `Edit`.
-   - Modify the `index.html` data to update the content:
+   - Click on `⋮` (the three dots) next to the `web-content` ConfigMap and select `Edit Config`.
+   - Modify the `index.html` value data to update the content:
     ```html
     <!DOCTYPE html>
     <html>
@@ -77,13 +79,12 @@ NOTE: You can also open a web browser and access the web server using the NodePo
    - Click on `Save` to apply the changes.
 
 ### Observe the Change:
-1. Fleet will detect the change in the ConfigMap and show a missing resource on the `Continuous Delivery` Dashboard.
-2. You may need to redploy the pods by accessing the Workloads, deployments and then selecting redeploy. (or delete the pod)
-3. Verify the change by accessing the web server again. The page should now display the updated content.
+1. Fleet will detect the change in the ConfigMap and show a missing resource on the `Continuous Delivery` Dashboard indicating a mismatch in configuration.
+2. To see the change via the Browser, the pod must be restarted, redeployed or deleted.
+3. Verify the change by accessing the web server again as done previously in step 2. The page should now display the updated content.
 
 ### Revert the Changes:
-1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `step4` repo.
-
+1. To revert the changes, Goto the `Continuous Delivery` Fleet dashboard and select `Force Update` on the `fleetapp` repo.
 2. Fleet will redeploy the original ConfigMap, reverting the web page to its initial state.
 
 ### Auto-Healing Feature:
@@ -93,7 +94,7 @@ NOTE: You can also open a web browser and access the web server using the NodePo
 ## Troubleshooting
 
 - If the Deployment is in `CrashLoopBackOff`, check the logs of the pod for errors.
-- Ensure that the ConfigMap is correctly mounted and the file paths are correct.
+- To see the changed config via the Browser, the webserver pod must be restarted, redeployed or deleted.
 
 ## Conclusion
 
