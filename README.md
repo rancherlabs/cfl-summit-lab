@@ -10,8 +10,8 @@ In this lab session we will aim to complete three exercises:
 
 Bonus rounds:
 1. Take an etcd snapshot of the downstream cluster
-2. Deploy an application using the HelmChart controller
-3. Restore the etcd snapshot taken in 4. to revert the app deployment
+2. Deploy an application or customize an existing addon using the [Additional Manifests](https://ranchermanager.docs.rancher.com/reference-guides/cluster-configuration/rancher-server-configuration/rke2-cluster-configuration#additionalmanifest) at the bottom of "Add-On Config" when editing the cluster
+3. [Restore the etcd snapshot](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/backup-restore-and-disaster-recovery/restore-rancher-launched-kubernetes-clusters-from-backup#restoring-a-cluster-from-a-snapshot) taken above, choosing the third option to also revert the app deployment
 
 ## Lab steps
 
