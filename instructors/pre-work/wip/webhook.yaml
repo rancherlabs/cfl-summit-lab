@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deployment-lab
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webhook-system
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: validating-webhook
+  namespace: webhook-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: validating-webhook
+  template:
+    metadata:
+      labels:
+        app: validating-webhook
+    spec:
+      containers:
+      - name: webhook
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo 'Webhook is failing'; sleep 10; done"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: validating-webhook-svc
+  namespace: webhook-system
+spec:
+  selector:
+    app: validating-webhook
+  ports:
+  - port: 443
+    targetPort: 8443
+
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validating-webhook-config
+webhooks:
+- name: validating.webhook.example.com
+  clientConfig:
+    service:
+      name: validating-webhook-svc
+      namespace: webhook-system
+      path: "/validate"
+    caBundle: "Cg=="
+  rules:
+  - apiGroups: ["*"]
+    apiVersions: ["*"]
+    operations: ["CREATE", "UPDATE", "DELETE"]
+    resources: ["*"]
+    scope: "Namespaced"
+  namespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: deployment-lab
+  failurePolicy: Fail
+  sideEffects: None
+  admissionReviewVersions: ["v1"]
+  timeoutSeconds: 5
