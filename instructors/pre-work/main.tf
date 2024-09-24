@@ -67,6 +67,7 @@ module "rancher_rke2_clusters" {
       set:
         hostname: $PUBLIC_IP.nip.io
         replicas: 1
+        bootstrapPassword: admin
       helmVersion: v3
     EOF
 
