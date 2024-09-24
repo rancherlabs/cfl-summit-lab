@@ -32,6 +32,43 @@ module "rancher_rke2_clusters" {
     PATH="$PATH:/var/lib/rancher/rke2/bin"
     alias k=kubectl
     EOF
+    
+    mkdir -p /var/lib/rancher/rke2/server/manifests/
+    
+    cat > /var/lib/rancher/rke2/server/manifests/cert-manager.yaml << EOF
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChart
+    metadata:
+      name: cert-manager
+      namespace: kube-system
+    spec:
+      createNamespace: true
+      targetNamespace: cert-manager
+      repo: https://charts.jetstack.io
+      chart: cert-manager
+      version: v1.15.3
+      set:
+        installCRDs: "true"
+      helmVersion: v3
+    EOF
+
+    cat > /var/lib/rancher/rke2/server/manifests/rancher.yaml << EOF
+
+    apiVersion: helm.cattle.io/v1
+    kind: HelmChart
+    metadata:
+      name: rancher
+      namespace: kube-system
+    spec:
+      createNamespace: true
+      targetNamespace: cattle-system
+      repo: https://releases.rancher.com/server-charts/latest/
+      chart: rancher
+      set:
+        hostname: $PUBLIC_IP.nip.io
+        replicas: 1
+      helmVersion: v3
+    EOF
 
     # Install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
