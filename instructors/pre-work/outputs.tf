@@ -1,9 +1,9 @@
-output "rancher-node-ips" {
-  value = local.rancher-node-ips
+output "rancher-node-ip" {
+  value = local.rancher-node-ip
 }
 
-output "rancher-node-keys" {
-  value = local.rancher-node-keys
+output "rancher-node-key" {
+  value = local.rancher-node-key
 }
 
 output "downstream-node-ips" {
@@ -15,5 +15,5 @@ output "downstream-node-keys" {
 }
 
 output "ssh-username" {
-  value = tostring(module.rancher_rke2_clusters[0].node_username)
+  value = tostring(module.rancher_rke2_cluster.node_username)
 }

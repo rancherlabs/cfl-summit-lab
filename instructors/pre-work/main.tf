@@ -1,10 +1,10 @@
-module "rancher_rke2_clusters" {
-  count               = var.attendees
+module "rancher_rke2_cluster" {
   source              = "./aws-rke2-module"
   aws_region          = var.aws_region
-  prefix              = "${count.index + 1}-r-${var.prefix}"
+  prefix              = "${var.prefix}-rancher-cluster"
   instance_count      = 1
   create_ssh_key_pair = true
+  instance_type = var.rancher_instance_type
   spot_instances      = var.spot_instances
   user_data           = <<-END
     #!/bin/sh
@@ -48,32 +48,60 @@ module "rancher_rke2_clusters" {
       chart: cert-manager
       version: v1.15.3
       set:
-        installCRDs: "true"
+        crds.enabled: "true"
       helmVersion: v3
     EOF
 
     cat > /var/lib/rancher/rke2/server/manifests/rancher.yaml << EOF
 
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: cattle-system
+    ---
     apiVersion: helm.cattle.io/v1
     kind: HelmChart
     metadata:
       name: rancher
       namespace: kube-system
     spec:
-      createNamespace: true
       targetNamespace: cattle-system
-      repo: https://releases.rancher.com/server-charts/latest/
+      repo: https://charts.rancher.com/server-charts/prime
       chart: rancher
       set:
         hostname: $PUBLIC_IP.nip.io
         replicas: 1
-        bootstrapPassword: admin
+        bootstrapPassword: initial-admin-password
       helmVersion: v3
     EOF
 
     # Install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   END
+}
+
+# module "downstream_cluster" {
+#   count = var.attendees
+#   source = "./downstream-cluster"
+#   rancher_ips    = aws_instance.instance.*.public_ip
+#### "https://${module.rancher_rke2_clusters[count.index].instances_public_ip[0]}.nip.io"
+# }
+
+resource "rancher2_bootstrap" "admin" {
+    provider = rancher2.bootstrap
+    password = "initial-admin-password"
+    telemetry = false
+}
+
+resource "rancher2_cluster" "imported-cluster" {
+  count = var.attendees
+  name        = "${count.index + 1}-${var.prefix}"
+  provider    = rancher2.admin
+  description = "Imported cluster - ${count.index + 1}-${var.prefix}"
+
+  lifecycle {
+    ignore_changes = [labels]
+  }
 }
 
 module "downstream_nodes" {
@@ -87,6 +115,21 @@ module "downstream_nodes" {
   user_data           = <<-END
     #!/bin/sh
 
+    # The below when commented will use the latest stable RKE2 channel/version
+    # export INSTALL_RKE2_VERSION="v1.20.5+rke2r1"
+
+    curl -sfL https://get.rke2.io | sh -
+    mkdir -p /etc/rancher/rke2
+    cat > /etc/rancher/rke2/config.yaml <<EOF
+    write-kubeconfig-mode: "0640"
+    tls-san:
+      - "$${PUBLIC_IP}"
+      - "$${PUBLIC_IP}.nip.io"
+    EOF
+
+    systemctl enable rke2-server
+    systemctl start rke2-server
+
     cat >> /etc/profile <<EOF
     export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
     export CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml
@@ -94,12 +137,105 @@ module "downstream_nodes" {
     alias k=kubectl
     EOF
 
+    export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
+    PATH="$PATH:/var/lib/rancher/rke2/bin"
+    echo "Checking API requests succeed"
+    count=0
+    while ! kubectl get nodes
+      do
+        echo -n "."
+        ((count++))
+        if [ $count -ge 5 ]
+          then
+            sleep $count
+        fi
+        if [ $count -ge 60 ]
+          then
+            echo -e "\n$(timestamp) Somethings up, kubectl commands are not succeeding, sorry!"
+            exit 1
+        fi
+    done
+    sleep 2
+    $${module.downstream_cluster.registration_command}
+
+    cat > /var/lib/rancher/rke2/server/manifests/mystery.yaml << EOF
+    ---
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: deployment-lab
+    ---
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: webhook-system
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: validating-webhook
+      namespace: webhook-system
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: validating-webhook
+      template:
+        metadata:
+          labels:
+            app: validating-webhook
+        spec:
+          containers:
+          - name: webhook
+            image: busybox
+            command: ["/bin/sh"]
+            args: ["-c", "while true; do echo 'Webhook is failing'; sleep 10; done"]
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: validating-webhook-svc
+      namespace: webhook-system
+    spec:
+      selector:
+        app: validating-webhook
+      ports:
+      - port: 443
+        targetPort: 8443
+    ---
+    apiVersion: admissionregistration.k8s.io/v1
+    kind: ValidatingWebhookConfiguration
+    metadata:
+      name: validating-webhook-config
+    webhooks:
+    - name: validating.webhook.example.com
+      clientConfig:
+        service:
+          name: validating-webhook-svc
+          namespace: webhook-system
+          path: "/validate"
+        caBundle: "Cg=="
+      rules:
+      - apiGroups: ["*"]
+        apiVersions: ["*"]
+        operations: ["CREATE", "UPDATE", "DELETE"]
+        resources: ["*"]
+        scope: "Namespaced"
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: deployment-lab
+      failurePolicy: Fail
+      sideEffects: None
+      admissionReviewVersions: ["v1"]
+      timeoutSeconds: 5
+    EOF
+
   END
 }
 
 locals {
-  rancher-node-ips = [for i, v in flatten(module.rancher_rke2_clusters[*].instances_public_ip) : "${i+1}-r-${var.prefix}: ${v}"]
-  rancher-node-keys = [for i, v in module.rancher_rke2_clusters[*].ssh_key_path : "${i+1}-r-${var.prefix}: ${basename(v)}"]
+  rancher-node-ip = module.rancher_rke2_cluster.instances_public_ip
+  rancher-node-key = module.rancher_rke2_cluster.ssh_key_path
   downstream-node-ips = [for i, v in flatten(module.downstream_nodes[*].instances_public_ip) : "${i+1}-ds-${var.prefix}: ${v}"]
   downstream-node-keys = [for i, v in module.downstream_nodes[*].ssh_key_path : "${i+1}-ds-${var.prefix}: ${basename(v)}"]  
 }

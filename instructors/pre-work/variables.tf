@@ -64,6 +64,11 @@ variable "aws_region" {
   }
 }
 
+variable "rancher_instance_type" {
+  description = "EC2 instance type to use for the Rancher local cluster"
+  default = "t3a.medium"
+}
+
 variable "spot_instances" {
   default = false
 }
