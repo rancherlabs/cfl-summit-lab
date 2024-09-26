@@ -71,7 +71,7 @@ module "rancher_rke2_cluster" {
       set:
         hostname: $PUBLIC_IP.nip.io
         replicas: 1
-        bootstrapPassword: initial-admin-password
+        bootstrapPassword: ${var.rancher_password}
       helmVersion: v3
     EOF
 
@@ -80,24 +80,18 @@ module "rancher_rke2_cluster" {
   END
 }
 
-# module "downstream_cluster" {
-#   count = var.attendees
-#   source = "./downstream-cluster"
-#   rancher_ips    = aws_instance.instance.*.public_ip
-#### "https://${module.rancher_rke2_clusters[count.index].instances_public_ip[0]}.nip.io"
-# }
-
 resource "rancher2_bootstrap" "admin" {
-    provider = rancher2.bootstrap
-    password = "initial-admin-password"
-    telemetry = false
+  depends_on = [module.rancher_rke2_cluster]
+  provider = rancher2.bootstrap
+  initial_password = var.rancher_password
+  telemetry = false
 }
 
 resource "rancher2_cluster" "imported-cluster" {
   count = var.attendees
   name        = "${count.index + 1}-${var.prefix}"
   provider    = rancher2.admin
-  description = "Imported cluster - ${count.index + 1}-${var.prefix}"
+  description = "CFL lab cluster - ${count.index + 1}-${var.prefix}"
 
   lifecycle {
     ignore_changes = [labels]
@@ -105,12 +99,14 @@ resource "rancher2_cluster" "imported-cluster" {
 }
 
 module "downstream_nodes" {
+  depends_on = [rancher2_cluster.imported-cluster]
   count               = var.attendees
   source              = "./aws-rke2-module"
   aws_region          = var.aws_region
   prefix              = "${count.index + 1}-ds-${var.prefix}"
   instance_count      = 1
   create_ssh_key_pair = true
+  instance_type = var.downstream_instance_type
   spot_instances      = var.spot_instances
   user_data           = <<-END
     #!/bin/sh
@@ -156,7 +152,7 @@ module "downstream_nodes" {
         fi
     done
     sleep 2
-    $${module.downstream_cluster.registration_command}
+    ${rancher2_cluster.imported-cluster[count.index].cluster_registration_token[0].insecure_command}
 
     cat > /var/lib/rancher/rke2/server/manifests/mystery.yaml << EOF
     ---

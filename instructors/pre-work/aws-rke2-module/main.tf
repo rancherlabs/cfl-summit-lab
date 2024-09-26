@@ -75,7 +75,6 @@ resource "aws_security_group" "sg_allowall" {
 
 resource "aws_instance" "instance" {
   count         = var.instance_count
-  # ami           = data.aws_ami.ubuntu.id
   ami           = data.aws_ami.suse.id
   instance_type = var.instance_type
   subnet_id     = var.subnet_id

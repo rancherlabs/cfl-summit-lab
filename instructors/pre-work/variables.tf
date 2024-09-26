@@ -66,6 +66,16 @@ variable "aws_region" {
 
 variable "rancher_instance_type" {
   description = "EC2 instance type to use for the Rancher local cluster"
+  default = "t3a.large"
+}
+
+variable "rancher_password" {
+  description = "Password used to bootstrap Rancher and the admin password to access Rancher"
+  default = "initial-admin-password"
+}
+
+variable "downstream_instance_type" {
+  description = "EC2 instance type to use for the downstream clusters"
   default = "t3a.medium"
 }
 

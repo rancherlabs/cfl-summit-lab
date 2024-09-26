@@ -17,6 +17,8 @@ provider "rancher2" {
   alias = "bootstrap"
   api_url = "https://${module.rancher_rke2_cluster.instances_public_ip[0]}.nip.io"
   bootstrap = true
+  insecure = true
+  timeout = "600s"
 }
 
 provider "rancher2" {
