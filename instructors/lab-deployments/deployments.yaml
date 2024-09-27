@@ -40,6 +40,17 @@ spec:
         ports:
         - containerPort: 5678
 ---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: lab-b
+  namespace: lab
+spec:
+  podSelector:
+    matchLabels:
+      app: lab-b
+  ingress: []
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,10 +67,39 @@ spec:
         app: lab-c
     spec:
       containers:
-      - name: lab-c
-        image: hashicorp/http-echo
-        ports:
-        - containerPort: 5678
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: lab-c-conf
+              mountPath: /etc/nginx/nginx.conf
+      volumes:
+        - name: lab-c-conf
+          configMap:
+            name: lab-c-conf
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lab-c-conf
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes  1;
+    events {
+      worker_connections  10;
+    }
+    http {
+      server {
+          listen       443;
+          server_name  localhost;
+          location / {
+            root   /usr/share/nginx/html; #Change this line
+            index  index.html index.htm;
+        }
+      }
+    }
 ---
 apiVersion: apps/v1
 kind: Deployment
