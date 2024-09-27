@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: lab-c
   namespace: lab
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   rules:
   - host: "lab-c.example.com"
@@ -16,4 +14,4 @@ spec:
           service:
             name: lab-c
             port:
-              number: 443
+              number: 8080

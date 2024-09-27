@@ -67,43 +67,10 @@ spec:
         app: lab-c
     spec:
       containers:
-        - name: nginx
-          image: nginx:latest
+        - name: app
+          image: docker.io/derekdemo/lab-c
           ports:
-            - containerPort: 443
-          volumeMounts:
-            - name: lab-c-conf
-              mountPath: /etc/nginx
-      volumes:
-        - name: lab-c-conf
-          configMap:
-            name: lab-c-conf
-          items:
-            - key: nginx.conf
-              path: nginx.conf
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: lab-c-conf
-  namespace: lab
-data:
-  nginx.conf: |
-    user nginx;
-    worker_processes  1;
-    events {
-      worker_connections  10;
-    }
-    http {
-      server {
-          listen       443;
-          server_name  localhost;
-          location / {
-            root   /usr/share/nginx/html; #Change this line
-            index  index.html index.htm;
-        }
-      }
-    }
+            - containerPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
