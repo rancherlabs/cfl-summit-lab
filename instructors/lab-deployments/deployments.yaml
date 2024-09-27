@@ -59,7 +59,7 @@ spec:
       - name: lab-c
         image: hashicorp/http-echo
         ports:
-        - containerPort: 80
+        - containerPort: 5678
 ---
 apiVersion: apps/v1
 kind: Deployment
