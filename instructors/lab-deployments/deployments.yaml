@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-a
+  namespace: lab
+spec:
+  selector:
+    matchLabels:
+      app: lab-a
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-a
+    spec:
+      containers:
+      - name: lab-a
+        image: hashicorp/http-echo
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-b
+  namespace: lab
+spec:
+  selector:
+    matchLabels:
+      app: lab-b
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-b
+    spec:
+      containers:
+      - name: lab-b
+        image: hashicorp/http-echo
+        ports:
+        - containerPort: 5678
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-c
+  namespace: lab
+spec:
+  selector:
+    matchLabels:
+      app: lab-c
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-c
+    spec:
+      containers:
+      - name: lab-c
+        image: hashicorp/http-echo
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-d
+  namespace: lab
+spec:
+  selector:
+    matchLabels:
+      app: lab-d
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-d
+    spec:
+      containers:
+      - name: lab-d
+        image: hashicorp/http-echo
+        ports:
+        - containerPort: 80

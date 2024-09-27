@@ -13,6 +13,7 @@ aws_region = "us-west-2" # change to a region closer to the event if desired
 rancher_instance_type = "t3a.xlarge"
 downstream_instance_type = "t3a.medium"
 
+# Password used to bootstrap Rancher and the admin password to access Rancher
 rancher_password = "initial-admin-password"
 
 # Only use while testing

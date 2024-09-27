@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-a
+  namespace: lab
+  labels:
+    app: lab-a
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: lab-a
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-b
+  namespace: lab
+  labels:
+    app: lab-b
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: lab-b
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-c
+  namespace: lab
+  labels:
+    app: lab-c
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: lab-c
