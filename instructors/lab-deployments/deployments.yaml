@@ -73,11 +73,14 @@ spec:
             - containerPort: 443
           volumeMounts:
             - name: lab-c-conf
-              mountPath: /etc/nginx/nginx.conf
+              mountPath: /etc/nginx
       volumes:
         - name: lab-c-conf
           configMap:
             name: lab-c-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
 ---
 apiVersion: v1
 kind: ConfigMap
