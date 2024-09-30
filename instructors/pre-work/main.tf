@@ -84,6 +84,7 @@ resource "rancher2_bootstrap" "admin" {
   depends_on = [module.rancher_rke2_cluster]
   provider = rancher2.bootstrap
   initial_password = var.rancher_password
+  password = var.rancher_password
   telemetry = false
 }
 
@@ -132,6 +133,12 @@ module "downstream_nodes" {
     PATH="$PATH:/var/lib/rancher/rke2/bin"
     alias k=kubectl
     EOF
+
+    # Install helm
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    # Install terraform
+    curl -OLs https://releases.hashicorp.com/terraform/1.9.6/terraform_1.9.6_linux_amd64.zip
+    unzip terraform_1.9.6_linux_amd64.zip -d /usr/local/bin
 
     export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
     PATH="$PATH:/var/lib/rancher/rke2/bin"

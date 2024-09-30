@@ -1,6 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: test-pod
+  namespace: lab
+spec:
+  selector:
+    matchLabels:
+      app: test-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-pod
+    spec:
+      containers:
+      - name: test-pod
+        image: rancherlabs/swiss-army-knife
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: lab-a
   namespace: lab
 spec:
