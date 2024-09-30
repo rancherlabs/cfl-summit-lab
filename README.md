@@ -58,7 +58,7 @@ Navigate to the Downstream cluster configuration guide in the link below:
 
 Pre-work:
   - Clone this repo to the Rancher node (`r`): `git clone https://github.com/rancherlabs/cfl-summit-lab.git`
-  - Change directory to the `2a-downstream-cluster` directory of the cloned repo, `terraform` is preinstalled on the node
+  - Change directory to the `bonus-downstream-cluster` directory of the cloned repo, `terraform` is preinstalled on the node
 
 1. Update the `terraform.tfvars` file to update the required variables (aws credentials, region, url, token, vpc details etc.)
 2. Initialise the terraform modules: `terraform init`
@@ -67,7 +67,7 @@ Pre-work:
 ### 3 - Deploy an application using Fleet
 
 Instructions to deploy a webserver using fleet are provided in this link
-* https://github.com/rancherlabs/cfl-summit-lab/blob/main/3-Deploy-an-application-using-Fleet/README.md
+* https://github.com/rancherlabs/cfl-summit-lab/blob/main/bonus-deploy-an-application-using-fleet/README.md
 
 ---
 
@@ -101,7 +101,7 @@ Choose the last option, to restore etcd, Kubernetes versions and cluster configu
 # Cleanup (only if you completed exercise 2a)
 
 ```bash
-cd 2a-downstream-cluster # if not in the directory
+cd bonus-downstream-cluster # if not in the directory
 terraform destroy
 ```
 
