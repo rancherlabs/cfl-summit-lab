@@ -104,7 +104,7 @@ module "downstream_nodes" {
   count               = var.attendees
   source              = "./aws-rke2-module"
   aws_region          = var.aws_region
-  prefix              = "${count.index + 1}-ds-${var.prefix}"
+  prefix              = "${count.index + 1}-${var.prefix}"
   instance_count      = 1
   create_ssh_key_pair = true
   instance_type = var.downstream_instance_type
@@ -238,7 +238,7 @@ module "downstream_nodes" {
 
 locals {
   rancher-node-ip = module.rancher_rke2_cluster.instances_public_ip
-  rancher-node-key = module.rancher_rke2_cluster.ssh_key_path
+  rancher-node-key = "${basename(module.rancher_rke2_cluster.ssh_key_path)}"
   downstream-node-ips = [for i, v in flatten(module.downstream_nodes[*].instances_public_ip) : "${i+1}-ds-${var.prefix}: ${v}"]
   downstream-node-keys = [for i, v in module.downstream_nodes[*].ssh_key_path : "${i+1}-ds-${var.prefix}: ${basename(v)}"]  
 }

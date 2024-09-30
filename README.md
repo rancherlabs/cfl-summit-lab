@@ -27,6 +27,20 @@ The issue is known to affect deployments in the `deployment-lab` namespace.
 
 ### 2 - Troubleshoot network issues
 
+Deployments have been created in the `lab` namespace of your downstream cluster
+
+#### 2a - Network issue
+
+Using a test pod, troubleshoot an issue with a deployment named `lab-a`
+
+Note, there is a test pod available, created by a deployment named `test-pod` that can be used
+
+#### 2b - Network issue
+
+#### 2c - Network issue
+
+#### 2d - Network issue
+
 # Bonus Rounds
 
 ### 3 - Create a downstream cluster (terraform)
