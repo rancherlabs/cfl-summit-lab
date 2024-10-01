@@ -4,3 +4,13 @@ metadata:
   name: lab
   labels:
     name: lab
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deployment-lab
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webhook-system

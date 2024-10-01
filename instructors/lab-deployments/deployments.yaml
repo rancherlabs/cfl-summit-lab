@@ -86,10 +86,10 @@ spec:
         app: lab-c
     spec:
       containers:
-        - name: app
-          image: docker.io/derekdemo/lab-c
-          ports:
-            - containerPort: 8080
+      - name: app
+        image: docker.io/derekdemo/lab-c
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment

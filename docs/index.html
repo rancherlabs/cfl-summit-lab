@@ -101,9 +101,18 @@ https://book-v1.book.kubebuilder.io/beyond_basics/what_is_a_webhook
 
 Ask the audience about their understanding of what these messages mean
 
----
+--
 
 - connection refused
+
+```bash
+# kubectl describe pod -n kube-system rke2-canal-zoidberg
+E0924 22:18:04.357762   4491 memcache.go:265] couldn't get current server API group list: Get https://127.0.0.1:6443/api?timeout=32s: dial tcp 127.0.0.1:6443: connect: connection refused
+```
+
+```
+zapp.brannig.an rke2[2783338]: {"level":"warn","ts":"2024-09-27T11:57:31.335237-0400","logger":"etcd-client","caller":"v3@v3.5.9-k3s1/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"etcd-endpoints://0xcd34db33ff/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: last connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+```
 
 --
 
