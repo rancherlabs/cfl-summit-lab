@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: test-pod
-  namespace: lab
+  namespace: default
 spec:
   selector:
     matchLabels:
