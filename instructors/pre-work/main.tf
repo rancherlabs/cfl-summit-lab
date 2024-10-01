@@ -83,7 +83,7 @@ module "rancher_rke2_cluster" {
     spec:
       branch: advanced
       correctDrift:
-        enabled: true
+        enabled: false
       paths:
         - instructors/lab-deployments
       repo: https://github.com/rancherlabs/cfl-summit-lab
@@ -105,7 +105,7 @@ module "rancher_rke2_cluster" {
     spec:
       branch: advanced
       correctDrift:
-        enabled: true
+        enabled: false
       paths:
         - instructors/lab-deployments-chaos
       paused: true
