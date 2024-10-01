@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>CFL Summit</title>
     <meta charset="utf-8">
     <style>
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -19,8 +19,6 @@
   <body>
     <textarea id="source">
 
-class: center, middle
-
 # CFL Summit | Rancher Lab
 
 --
@@ -36,15 +34,48 @@ In the lab environment the following has been pre-created:
 
 # Webhooks in Kubernetes
 
+
+
 --
 
 ## What are they?
 
+?? Ask the audience, does anyone want to answer?
+
+--
+
+Webhooks provide a way to add logic into the Kubernetes API while processing certain requests
+
+There are two points in the API workflow where webhooks can be integrated:
+
+--
+
+### Validation (validating webhook)
+
+Allowing an approve/deny stage for API requests, there are some common use cases:
+  - Ensuring standards - eg, labels, resource limits
+  - Security tools
+  - Protection of important objects/CRDs
+  - Rejecting invalid spec
+
+--
+
+### Mutation (mutating webook)
+
+Allowing changes to be injected into API objects, some common use cases:
+  - Istio sidecar injection
+  - Adding context - eg, labels, annotations etc.
+  - Removing invalid fields
+
 ---
+
+class: center, middle
 
 [!](https://miro.medium.com/v2/resize:fit:4800/format:webp/0*rKDzcFeAFWuYsFeg.jpg)
 
 ---
+
+class: center, middle
 
 [!](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*tFRqBPkv9X4Y8RO7agtcWw.jpeg)
 
