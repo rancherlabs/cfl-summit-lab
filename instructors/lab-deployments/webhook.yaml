@@ -16,7 +16,16 @@ spec:
       containers:
       - name: webhook
         image: derekdemo/lab-1
----
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: 443
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+  ---
 apiVersion: v1
 kind: Service
 metadata:

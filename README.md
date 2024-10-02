@@ -24,7 +24,7 @@ The issue is known to affect changes in the `deployment-lab` namespace, like cre
 
   - Repro the issue using the `deployment-lab` namespace
   - Investigate further to understand the issue
-  - Make changtes as need to resolve issues
+  - Make changes as need to resolve issues
 
 ### 2 - Troubleshoot network issues
 
