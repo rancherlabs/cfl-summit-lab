@@ -20,8 +20,8 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /readyz
-            port: 443
-            scheme: HTTP
+            port: 1
+            scheme: HTTPS
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
