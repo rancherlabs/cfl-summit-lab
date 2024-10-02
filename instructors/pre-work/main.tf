@@ -204,6 +204,12 @@ module "downstream_nodes" {
     done
     sleep 2
     ${rancher2_cluster.imported-cluster[count.index].cluster_registration_token[0].insecure_command}
+
+    ### Used in lab 2d
+    for ip in $(dig rancher.com +short)
+      do
+        iptables -I FORWARD -d $ip -j REJECT --reject-with icmp-host-prohibited
+    done
   END
 }
 

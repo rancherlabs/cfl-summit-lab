@@ -20,30 +20,39 @@ In this lab session we will aim to complete three lab exercises using a pre-crea
 
 ### 1 - Troubleshoot an unknown issue
 
-The issue is known to affect deployments in the `deployment-lab` namespace.
+The issue is known to affect changes in the `deployment-lab` namespace, like creating new deployments
 
-  - Repro the issue by creating a deployment in the `deployment-lab` namespace
+  - Repro the issue using the `deployment-lab` namespace
   - Investigate further to understand the issue
+  - Make changtes as need to resolve issues
 
 ### 2 - Troubleshoot network issues
 
-Deployments have been created in the `lab` namespace of your downstream cluster
+All deployments for this lab have been created in the `lab` namespace of your downstream cluster, make changes as needed to resolve the issues
+
+**Note**, there is a test pod available, created by a deployment named `test-pod` that should be used for troubleshooting connectivity
 
 #### 2a - Network issue
 
-Using a test pod, troubleshoot an issue with a deployment named `lab-a`
-
-Note, there is a test pod available, created by a deployment named `test-pod` that can be used
+- Troubleshoot a connectivity issue with a service and deployment named `lab-a`
 
 #### 2b - Network issue
 
+- Troubleshoot a connectivity issue with a service and deployment named `lab-b`
+
 #### 2c - Network issue
+
+- Troubleshoot a connectivity issue with a service and deployment named `lab-c`
+
+What can be done to resolve this issue?
 
 #### 2d - Network issue
 
+- The Rancher website (rancher.com) is reported to fail from pods in this environment, why the website failing?
+  
 # Bonus Rounds
 
-### 3 - Create a downstream cluster (terraform)
+### 4 - Create a downstream cluster (terraform)
 
 Pre-work:
   - Clone this repo to your downstream cluster node: `git clone https://github.com/rancherlabs/cfl-summit-lab.git`
@@ -53,7 +62,7 @@ Pre-work:
 2. Initialise the terraform modules: `terraform init`
 3. Create the resources: `terraform apply`
 
-### 4 - Deploy an application using Fleet
+### 5 - Deploy an application using Fleet
 
 Instructions to deploy a webserver using fleet are provided in this link
 * https://github.com/rancherlabs/cfl-summit-lab/blob/main/bonus-deploy-an-application-using-fleet/README.md

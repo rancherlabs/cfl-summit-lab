@@ -18,6 +18,6 @@ A network policy denies traffic to the pod label
 
 A cusom app resets connections
 
-- lab-c -- no route to host
-- lab-d -- dns failure
-- lab-e
+- lab-d -- no route to host, dns failure
+
+A firewall rule is rejecting traffic

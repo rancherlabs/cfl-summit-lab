@@ -17,7 +17,9 @@
       img {
           max-width: 100%;
       }
-
+      code {
+        white-space : pre-wrap !important;
+      }
     </style>
   </head>
   <body>
@@ -38,8 +40,6 @@ In the lab environment the following has been pre-created:
 
 # Webhooks in Kubernetes
 
-
-
 --
 
 ## What are they?
@@ -56,7 +56,7 @@ There are two points in the API workflow where webhooks can be integrated:
 
 ???
 
-A basic explanation
+A basic definition of webhooks, more details in the following slides
 
 ---
 
@@ -81,17 +81,54 @@ Allowing changes to be injected into API objects, some common use cases:
 
 class: center, middle
 
-![basic-view](https://miro.medium.com/v2/resize:fit:4800/format:webp/0*rKDzcFeAFWuYsFeg.jpg)
+![basic-view](webhook.jpeg)
 
 ---
 
 class: center, middle
 
-![detailed-view](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*tFRqBPkv9X4Y8RO7agtcWw.jpeg)
+![detailed-view](webhook-detailed.jpeg)
 
 More info on webhooks
 
 https://book-v1.book.kubebuilder.io/beyond_basics/what_is_a_webhook
+
+https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/ 
+
+---
+
+## Common network issues
+
+---
+
+## Wait, first let's take a look at this
+
+---
+
+## TCP 3 way handshake
+
+![tcphandshake](tcp-handshake.png)
+
+???
+
+Cover the 3-way handshake (SYN, SYN-ACK, ACK)
+- Destination starts an app which binds to a port (TCB allocated) and listens
+- Source creates a TCB (trans control block), assigns a source port, sends a SYN packet to the destination and port
+
+Come back to this slide if it's useful to reference in the following slides
+
+---
+
+## Full TCP session lifecycle
+
+![tcpsession](tcp-full-session.png)
+
+???
+
+- L/H side shows what we covered in the previous slide, the session is started after the handshake
+- In between is the data transmission - what matters
+- R/H side is the closure of the session - in a nice polite way
+- Not all TCP sessions close this way, often abruptly 
 
 ---
 
@@ -101,9 +138,9 @@ https://book-v1.book.kubebuilder.io/beyond_basics/what_is_a_webhook
 
 Ask the audience about their understanding of what these messages mean
 
---
+---
 
-- connection refused
+### connection refused
 
 ```bash
 # kubectl describe pod -n kube-system rke2-canal-zoidberg
@@ -114,21 +151,117 @@ E0924 22:18:04.357762   4491 memcache.go:265] couldn't get current server API gr
 zapp.brannig.an rke2[2783338]: {"level":"warn","ts":"2024-09-27T11:57:31.335237-0400","logger":"etcd-client","caller":"v3@v3.5.9-k3s1/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"etcd-endpoints://0xcd34db33ff/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: last connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
 ```
 
---
+???
 
-- i/o timeout
+Can be a few reasons:
+- (most common) The destination port is not bound by the destination host
+- The destination kernel refuses connections due to a backlog of queued connections
+- A firewall rule with a `REJECT` rather than `DROP`
 
---
+This can be temporary, for example if ingress-nginx is restarting, the port will not be bound for a short period
 
-- connection reset by peer
+---
 
---
+### i/o timeout
 
-- no route to host
+```bash
+# curl localhost:8080
+curl: (28) Connection timed out after 2005 milliseconds
+```
 
---
+```
+[ERROR] plugin/errors: 2 3994503566595593402.4565890997905689978. HINFO: read udp 10.42.2.188:45439->10.17.130.43:53: i/o timeout
+```
 
-- dns failure
+```
+E0912 19:08:00.809037       1 run.go:74] "command failed" err="unable to load configmap based request-header-client-ca-file: Get \"https://127.0.0.1:6443/api/v1/namespaces/kube-system/configmaps/extension-apiserver-authentication\": dial tcp 127.0.0.1:6443: i/o timeout"
+```
+
+```
+2024-07-21T14:36:07.543416281Z E0721 14:36:07.543243       1 leaderelection.go:330] error retrieving resource lock kube-system/kube-scheduler: Get "https://127.0.0.1:6443/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler?timeout=5s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+```
+
+???
+
+Can be a few reasons:
+- No ACK response from the destination host, need more context about the connectivity path to understand cause
+- Firewall rule with `DROP`, doesn't respond with ACK to the source SYN packet
+- Destination host is under load, app doesn't reply in the timeout period
+
+---
+
+### connection reset by peer
+
+```
+philip-j-fry.com rancher-system-agent[14615]: time="2024-09-27T20:07:43-05:00" level=fatal msg="[K8s] encountered an error while attempting to update the secret: Put \"https://leela.bender.com/api/v1/namespaces/fleet-default/secrets/custom-8b78ea0e6d6d-machine-plan\": read tcp 10.47.248.198:59390->10.47.130.35:443: read: connection reset by peer"
+```
+
+```
+ERROR: https://prof-farmsworth.edu/ping is not accessible (Recv failure: Connection reset by peer)
+```
+
+```
+2024/07/26 14:46:51 [error] 29#29: *283832 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 172.16.224.253, server: hermes-conrad.jm, request: "GET /apis/snapshot.storage.k8s.io/v1beta1?timeout=32s HTTP/1.1", upstream: "http://10.42.4.181:80/apis/snapshot.storage.k8s.io/v1beta1?timeout=32s", host: "hermes-conrad.jm"
+```
+
+???
+
+Equivalent to handing up the phone on a caller, an abrupt closure of the TCP session - almost always by the destination but can be from the source as well
+- A TCP packet was sent by the destination with the RST (reset) flag set, indicating a forced immediate closure
+- More polite than not sending anything (a timeout), can give more context for troubleshooting
+
+---
+
+### no route to host
+
+```
+2024-06-25T18:57:02.136622425-05:00 stderr F W0625 23:57:02.136398       1 egress_controller.go:1001] Failed to start watch for EgressGroup: Get "https://10.43.131.109:443/apis/controlplane.antrea.io/v1beta2/egressgroups?fieldSelector=nodeName%3Dsomething-47024a6c-xdrfv&watch=true": dial tcp 10.43.131.109:443: connect: no route to host
+```
+
+```
+[ERROR] plugin/errors: 2 3641072525830743004.8496191176616642290. HINFO: read udp 10.42.1.253:43929->8.8.8.8:53: read: no route to host  
+```
+
+```
+2024/04/05 03:18:05 [error] 2681#2681: *2305048 connect() failed (113: No route to host) while connecting to upstream, client: 10.2.176.17, server: anchovies-on-pizza.it, request: "GET /hello HTTP/2.0", upstream: "http://10.42.96.250:1234/hello", host: "anchovies-on-pizza.it"
+```
+
+
+???
+
+Uncommon but can be , some causes:
+- A genuine issue with routes in the OS main route table or pod network sandbox
+- A firewall rule with a REJECT type that misleads source clients, firewall commonly adds rules with `--reject-with icmp-host-prohibited`
+
+---
+
+### dns failure
+
+```
+Oct 17 20:36:18 old-bessie-1 rke2[12378]: time="2022-10-17T20:36:18Z" level=warning msg="Failed to get image from endpoint: Get \"https://planet.express.com/v2/\": dial tcp: lookup planet.express.com: i/o timeout"
+```
+
+```
+Post "http://api.prod.domain.local/admin": dial tcp: lookup api.prod.domain.local: no such host
+```
+
+```
+Caused by: java.net.UnknownHostException:  foo.bar.com
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1281) ~[?:1.8.0_211]
+	at java.net.InetAddress.getAllByName(InetAddress.java:1193) ~[?:1.8.0_211]
+      [...]
+```
+
+???
+
+- The first code block is interesting, golang logs can be a bit misleading, the key word here is `lookup`, this indicates an i/o timeout due to the DNS lookup not resolving. Also the hostname is used, if DNS is successful a destination IP is reported
+
+Lots of potential causes:
+- Try to triangulate, if the issue is affecting pods, try to determine if it's internal vs external or both
+- Based on the above, focus on the key areas:
+  - For external, checking coredns logs is often a useful first step, and verifying from another host on the network
+  - For internal, checking against each coredns pod (endpoint) to eliminate overlay pod/overlay issues
+
 
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
