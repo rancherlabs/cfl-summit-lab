@@ -2,7 +2,7 @@
 
 - webhook is deployed with several issues
   1. livenes probe is failing, wrong port used in liveness probe
-  2. service has wrong selector
+  2. service has wrong selector 
   3. (bonus round) ca.cert is not trusted - ca is available in the webhook pod and can be added to the webhook configuration base64 under `caBundle`
 
 ## Lab 2 network issues

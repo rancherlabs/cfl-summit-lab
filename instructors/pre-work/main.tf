@@ -96,29 +96,6 @@ module "rancher_rke2_cluster" {
                   - harvester
     EOF
 
-    cat > /var/lib/rancher/rke2/server/manifests/lab-chaos-gitrepo.yaml << EOF
-    apiVersion: fleet.cattle.io/v1alpha1
-    kind: GitRepo
-    metadata:
-      name: lab-deployments-chaos
-      namespace: fleet-default
-    spec:
-      branch: advanced
-      correctDrift:
-        enabled: false
-      paths:
-        - instructors/lab-deployments-chaos
-      paused: true
-      repo: https://github.com/rancherlabs/cfl-summit-lab
-      targets:
-        - clusterSelector:
-            matchExpressions:
-              - key: provider.cattle.io
-                operator: NotIn
-                values:
-                  - harvester
-    EOF
-
     # Install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   END
