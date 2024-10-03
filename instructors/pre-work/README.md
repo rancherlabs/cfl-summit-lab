@@ -1,10 +1,10 @@
 # Pre-work
 
 Create the instances that will be used by attendees, applying the terraform will create:
-  - 1 x EC2 instance with RKE2 & Rancher preinstalled, this instance has an `r` in the name. Shortcuts like `k` are in place to use kubectl
-  - 1 x EC2 instance for each attendee with RKE2 preinstalled, this will be added to the Rancher environment above as an imported cluster
+  - 1 x EC2 instance with RKE2 & Rancher preinstalled, this instance has `rancher-cluster` in the name
+  - 1 x EC2 instance for each attendee with RKE2 preinstalled, this will be imported to the Rancher environment above, these instances have a number prefix on the name
 
-Instances will be launched in the default VPC of the region, with a unique security group and generated SSH key. SLES 15 SP5 is used by default, with SSH username: `ec2-user`
+Instances will be launched in the default VPC of the region, with a unique security group and generated SSH key. Nodes are already set up to use `kubectl` and `crictl`, etc. SLES 15 SP5 is used, SSH username: `ec2-user`
 
 Notes:
   - Attendees are to be given the SSH keys and node IPs - they should pick a number for their lab and use the associated IPs/keys (eg, choose #4 and use `4-cfl-lab`)
@@ -13,7 +13,7 @@ Notes:
 ## Steps
 
 1. If you haven't already, clone this repo
-1. Login to Okta and click on "AWS Landing Zone" to generate temporary AWS credentials
+1. (**Optional**) Login to Okta and click on "AWS Landing Zone" to generate temporary AWS credentials
    1. Select the "Support Engineering" AWS account drop down
    2. Click the "Access keys" button and copy the contents from the code block in Option 1 to export the variables on your command line, these credentials will be valid for ~12 hours
 2. **Alternatively**, terraform will default to the credentials from your `~/.aws/credentials` file, so you can use long-lived credentials there, or stored in the `terraform.tfvars` file as well

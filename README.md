@@ -81,6 +81,6 @@ terraform destroy
 
 ---
 
-# Instructors only
+# !! Instructors only !!
 
 See `pre-work` directory for preparation of the initial lab environment
