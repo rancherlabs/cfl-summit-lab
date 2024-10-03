@@ -120,8 +120,9 @@ resource "aws_instance" "instance" {
 
   tags = merge(
     {
-      Name    = "${var.prefix}"
+      Name    = var.prefix
       Creator = var.prefix
+      DoNotDelete = "true"
     },
     var.tags
   )

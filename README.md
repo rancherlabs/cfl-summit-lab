@@ -1,4 +1,4 @@
-# cfl-summit-lab
+# cfl-summit-lab | advanced
 
 ## Lab objectives:
 
@@ -48,7 +48,9 @@ What can be done to resolve this issue?
 
 #### 2d - Network issue
 
-- The Rancher website (rancher.com) is reported to fail from pods in this environment, why the website failing?
+- The Rancher website (rancher.com) is reported to fail from pods in this environment
+
+Why is the website failing?
   
 # Bonus Rounds
 
@@ -60,7 +62,8 @@ Pre-work:
 
 1. Update the `terraform.tfvars` file to update the required variables (aws credentials, region, url, token, vpc details etc.)
 2. Initialise the terraform modules: `terraform init`
-3. Create the resources: `terraform apply`
+3. Check over the `main.tf` file to understand how it works
+4. Create the resources: `terraform apply`
 
 ### 5 - Deploy an application using Fleet
 
