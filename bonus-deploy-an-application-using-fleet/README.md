@@ -27,7 +27,7 @@ From the left-hand menu, click on `Continuous Delivery`
   - **Name**: `fleetapp`
   - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
   - **Branch**: `main`
-  - **Paths**: `3-Deploy-an-application-using-Fleet`
+  - **Paths**: `bonus-deploy-an-application-using-fleet`
 
 ### Set the Target Clusters:
 - In the `Targets` section, specify the clusters where you want the resources to be deployed.
