@@ -54,7 +54,7 @@ Why is the website failing?
   
 # Bonus Rounds
 
-### 4 - Create a downstream cluster (terraform)
+### 3 - Create a downstream cluster (terraform)
 
 Pre-work:
   - Clone this repo to your downstream cluster node: `git clone https://github.com/rancherlabs/cfl-summit-lab.git`
@@ -72,7 +72,7 @@ Instructions to deploy a webserver using fleet are provided in this link
 
 ---
 
-# Cleanup (only if you completed exercise 3)
+# Cleanup (only if you completed bonus round 3)
 
 ```bash
 cd bonus-downstream-cluster # if not in the directory
