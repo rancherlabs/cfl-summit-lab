@@ -73,33 +73,15 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lab-c
-  namespace: lab
-spec:
-  selector:
-    matchLabels:
-      app: lab-c
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: lab-c
-    spec:
-      containers:
-      - name: app
-        image: docker.io/derekdemo/lab-c
-        ports:
-        - containerPort: 8080
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: lab-d
   namespace: lab
 spec:
   selector:
     matchLabels:
       app: lab-d
+      custom-app: true
+      owner: database-team
+      contact: "support@db-team.example.com"
   replicas: 1
   template:
     metadata:
@@ -107,7 +89,7 @@ spec:
         app: lab-d
     spec:
       containers:
-      - name: lab-d
-        image: hashicorp/http-echo
+      - name: app
+        image: docker.io/derekdemo/lab-d
         ports:
-        - containerPort: 80
+        - containerPort: 8080

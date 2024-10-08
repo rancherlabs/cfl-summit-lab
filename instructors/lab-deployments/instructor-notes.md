@@ -15,10 +15,10 @@ A wrong port is used by the service
 
 A network policy denies traffic to the pod label
 
-- lab-c -- connection reset by peer
-
-A cusom app resets connections
-
-- lab-d -- no route to host, dns failure
+- lab-c -- no route to host, dns failure
 
 A firewall rule is rejecting traffic
+
+- lab-d -- connection reset by peer
+
+A cusom app resets connections

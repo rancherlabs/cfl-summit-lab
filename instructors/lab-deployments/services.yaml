@@ -31,13 +31,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: lab-c
+  name: lab-d
   namespace: lab
   labels:
-    app: lab-c
+    app: lab-d
 spec:
   type: ClusterIP
   ports:
   - port: 8080
   selector:
-    app: lab-c
+    app: lab-d
