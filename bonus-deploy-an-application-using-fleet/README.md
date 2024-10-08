@@ -11,12 +11,12 @@ This repository contains the necessary resources to deploy a web server that ser
 
 ## Prerequisites
 
-- Kubernetes cluster managed by Rancher 2.8
+- Kubernetes cluster managed by Rancher
 
-## 1. Deploy via Rancher 2.8 UI
+## 1. Deploy via Rancher UI
 
-### Log in to Rancher 2.8:
-Open your Rancher 2.8 UI in your browser and log in.
+### Log in to Rancher:
+Open your Rancher UI in your browser and log in.
 
 ### Navigate to Fleet:
 From the left-hand menu, click on `Continuous Delivery`
