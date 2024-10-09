@@ -40,9 +40,6 @@ subnet_id = "subnet-xxxx"
 # Enter the zone letter for this subnet, eg: us-west-2a
 zone = "a"
 
-# Enter an existing security group _name_ to use (not ID sg-*) from the same VPC
-security_group_name = "1-r-cfl-lab-allow-nodes"
-
 # Kubernetes version (must be supported by Rancher version) for the RKE2/k3s cluster
 # https://github.com/rancher/rke2/tags
 # https://github.com/k3s-io/k3s/tags

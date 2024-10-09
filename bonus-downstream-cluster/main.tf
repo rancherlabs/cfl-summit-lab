@@ -13,7 +13,7 @@ module "downstream_rke2" {
   ssh_user            = var.ssh_user
   ami                 = var.ami != null ? var.ami : data.aws_ami.suse.id
   instance_type       = var.instance_type
-  volume_size         = var.volume_size
+  volume_size         = var.volume_sizeg
   spot_instances      = var.spot_instances
 
   cluster_name          = var.cluster_name
@@ -72,7 +72,6 @@ resource "aws_security_group" "sg_allowall" {
   }
 
   tags = {
-    Creator = cfl-lab
-    Name = var.cluster_name
+    Creator = "cfl-lab"
   }
 }
