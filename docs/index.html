@@ -16,6 +16,8 @@
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
       img {
           max-width: 100%;
+          max-height: 100%;
+          width: auto;
       }
       code {
         white-space : pre-wrap !important;
@@ -28,6 +30,8 @@
 class: center, middle
 
 # CFL Summit | Rancher Lab
+
+Please join slack channel: #cfl-rancher-lab-oct-2024
 
 ---
 
@@ -75,7 +79,7 @@ Allowing an approve/deny stage for API requests, there are some common use cases
 ### Mutation (mutating webook)
 
 Allowing changes to be injected into API objects, some common use cases:
-  - Istio sidecar injection
+  - Sidecar injection (Istio, for eg)
   - Adding context - eg, labels, annotations etc.
   - Removing invalid fields
 
@@ -121,7 +125,9 @@ Come back to this slide if it's useful to reference in the following slides
 
 ---
 
-## Full TCP session lifecycle
+class: center, middle
+
+#### Full TCP session lifecycle
 
 ![tcpsession](tcp-full-session.png)
 
@@ -228,12 +234,20 @@ Equivalent to handing up the phone on a caller, an abrupt closure of the TCP ses
 2024/04/05 03:18:05 [error] 2681#2681: *2305048 connect() failed (113: No route to host) while connecting to upstream, client: 10.2.176.17, server: anchovies-on-pizza.it, request: "GET /hello HTTP/2.0", upstream: "http://10.42.96.250:1234/hello", host: "anchovies-on-pizza.it"
 ```
 
+Can sometimes be caused by firewalld REJECT rules, which use `reject-with icmp-host-prohibited`
+```bash
+# iptables -nvL
+  [...]
+pkts bytes   target           prot opt in     out     source               destination
+458K   70M REJECT             all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+```
 
 ???
 
 Uncommon but can be , some causes:
 - A genuine issue with routes in the OS main route table or pod network sandbox
 - A firewall rule with a REJECT type that misleads source clients, firewall commonly adds rules with `--reject-with icmp-host-prohibited`
+- REJECT is useful if you want to notify the client, DROP is better for hardening to avoid confirming that the destination exists and the port may be potentially in use
 
 ---
 

@@ -160,6 +160,8 @@ module "downstream_nodes" {
     # Install terraform
     curl -OLs https://releases.hashicorp.com/terraform/1.9.6/terraform_1.9.6_linux_amd64.zip
     unzip terraform_1.9.6_linux_amd64.zip -d /usr/local/bin
+    # Install git
+    zypper install git
 
     export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
     PATH="$PATH:/var/lib/rancher/rke2/bin"
