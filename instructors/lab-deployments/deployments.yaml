@@ -79,14 +79,13 @@ spec:
   selector:
     matchLabels:
       app: lab-d
-      custom-app: true
-      owner: database-team
-      contact: "support@db-team.example.com"
   replicas: 1
   template:
     metadata:
       labels:
         app: lab-d
+        custom-app: "true"
+        owner: database-team
     spec:
       containers:
       - name: app
