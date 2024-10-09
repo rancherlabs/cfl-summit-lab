@@ -4,11 +4,11 @@ metadata:
   name: webserver-service
   namespace: default
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: webserver
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 30080
+    name: http

@@ -11,12 +11,12 @@ This repository contains the necessary resources to deploy a web server that ser
 
 ## Prerequisites
 
-- Kubernetes cluster managed by Rancher 2.8
+- Kubernetes cluster managed by Rancher
 
-## 1. Deploy via Rancher 2.8 UI
+## 1. Deploy via Rancher UI
 
-### Log in to Rancher 2.8:
-Open your Rancher 2.8 UI in your browser and log in.
+### Log in to Rancher:
+Open your Rancher UI in your browser and log in.
 
 ### Navigate to Fleet:
 From the left-hand menu, click on `Continuous Delivery`
@@ -27,7 +27,7 @@ From the left-hand menu, click on `Continuous Delivery`
   - **Name**: `fleetapp`
   - **Repository URL**: `https://github.com/rancherlabs/cfl-summit-lab`
   - **Branch**: `main`
-  - **Paths**: `3-Deploy-an-application-using-Fleet`
+  - **Paths**: `bonus-deploy-an-application-using-fleet`
 
 ### Set the Target Clusters:
 - In the `Targets` section, specify the clusters where you want the resources to be deployed.
@@ -48,13 +48,11 @@ Navigate to the `Workloads` section in Rancher UI and ensure that the `webserver
 Navigate to the `Service Discovery/Services` section and ensure that the `webserver-service` is created and exposing the NodePort.
 
 ### Access the Web Server:
-Navigate to the `Service Discovery/Services` section and click on the Target `30080/TCP` link to open the webpage presented by the webserver.
-
-NOTE: You can also open a web browser and access the web server using the NodePort. For example, `http://<NodeIP>:30080`.
+Navigate to the `Service Discovery/Services` section and click on the Target `http` link to open the webpage presented by the webserver through the apiserver services-proxy.
 
 ## 3. Bonus Exercise: Modify ConfigMap and Observe Fleet
 
-### Modify the ConfigMap via Rancher 2.8 UI:
+### Modify the ConfigMap via Rancher UI:
 1. **Navigate to Config Maps**:
    - From the left-hand menu, click on `Config Maps` under the `Resources` section.
    - Select the `web-content` ConfigMap.
