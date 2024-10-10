@@ -42,13 +42,13 @@ All deployments for this lab have been created in the `lab` namespace of your do
 
 #### 2c - Network issue
 
-- The Rancher website (rancher.com) is reported to fail from pods in this environment
+- The Rancher website (rancher.com) is reported to fail from pods in this environment.
 
 Why is the website failing?
 
 #### 2d - Network issue
 
-- Troubleshoot a connectivity issue with a service and deployment named `lab-c`
+- Troubleshoot a connectivity issue with a service and deployment named `lab-d`
 
 What can be done to resolve this issue?
   
