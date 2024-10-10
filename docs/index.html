@@ -34,6 +34,29 @@ Please join slack channel: #cfl-rancher-lab-oct-2024
 
 ---
 
+class: center, middle
+
+## Derek Keightley
+
+## &
+
+## Ryan Elliott-Smith
+
+???
+
+No sheep
+
+---
+
+## What are we doing?
+
+--
+
+- Quick presentation to cover some relevant topics (~15mins)
+- Lab
+
+--
+
 ## What are we working with?
 
 In the lab environment the following has been pre-created:
@@ -106,9 +129,11 @@ https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-con
 
 ---
 
-## Wait, first let's take a look at this
+class: center, middle
 
----
+## Wait, first let's step back a bit..
+
+--
 
 class: center, middle
 
@@ -126,13 +151,15 @@ Come back to this slide if it's useful to reference in the following slides
 
 ---
 
+class: center, middle
+
 ![tcp-session](tcp-full-session-cropped.png)
 
 ???
 
-- L/H side shows what we covered in the previous slide, the session is started after the handshake
-- In between is the data transmission - what matters
-- R/H side is the closure of the session - in a nice polite way
+- First green handshake section shows what we covered in the previous slide, the session is started after the handshake
+- The session is where the data transmission - what matters
+- The closure of the session - in a nice polite way to finish
 - Not all TCP sessions close this way, often abruptly 
 
 ---
@@ -149,6 +176,7 @@ Ask the audience about their understanding of what these messages mean
 
 ```bash
 # kubectl describe pod -n kube-system rke2-canal-zoidberg
+
 E0924 22:18:04.357762   4491 memcache.go:265] couldn't get current server API group list: Get https://127.0.0.1:6443/api?timeout=32s: dial tcp 127.0.0.1:6443: connect: connection refused
 ```
 
@@ -162,10 +190,9 @@ zapp.brannig.an rke2[2783338]: {"level":"warn","ts":"2024-09-27T11:57:31.335237-
 
 Can be a few reasons:
 - (most common) The destination port is not bound by the destination host
+  - This can be temporary, for example if ingress-nginx is restarting, the port will not be bound for a short period
 - The destination kernel refuses connections due to a backlog of queued connections
 - A firewall rule with a `REJECT` rather than `DROP`
-
-This can be temporary, for example if ingress-nginx is restarting, the port will not be bound for a short period
 
 ---
 
@@ -200,6 +227,7 @@ Can be a few reasons:
 - No ACK response from the destination host, need more context about the connectivity path to understand cause
 - Firewall rule with `DROP`, doesn't respond with ACK to the source SYN packet
 - Destination host is under load, app doesn't reply in the timeout period
+- Last error isn't necessarily a TCP timeout, the HTTP request did not get a response from kube-api in the 5s timeout
 
 ---
 
@@ -223,7 +251,7 @@ ERROR: https://prof-farmsworth.edu/ping is not accessible (Recv failure: Connect
 
 ???
 
-Equivalent to handing up the phone on a caller, an abrupt closure of the TCP session - almost always by the destination but can be from the source as well
+Equivalent to hanging up the phone on a caller, an abrupt closure of the TCP session - almost always by the destination but can be from the source as well
 - A TCP packet was sent by the destination with the RST (reset) flag set, indicating a forced immediate closure
 - More polite than not sending anything (a timeout), can give more context for troubleshooting
 
