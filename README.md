@@ -8,7 +8,7 @@ In this lab session we will aim to complete three lab exercises using a pre-crea
 2. Troubleshoot several network issues
 3. Review a log collection
 
-## Lab steps
+# Lab steps
 
 ### Pre-work
 
@@ -18,7 +18,9 @@ In this lab session we will aim to complete three lab exercises using a pre-crea
     - **SSH username**: `ec2-user`
     - `sudo` is available once logged in
 
-### 1 - Troubleshoot an unknown issue
+---
+
+## Lab 1 - Troubleshoot an unknown issue
 
 The issue is known to affect changes in the `deployment-lab` namespace, like creating new deployments
 
@@ -26,7 +28,9 @@ The issue is known to affect changes in the `deployment-lab` namespace, like cre
   - Investigate further to understand the issue
   - Make changes as needed to resolve issues
 
-### 2 - Troubleshoot network issues
+---
+
+## Lab 2 - Troubleshoot network issues
 
 All deployments for this lab have been created in the `lab` namespace of your downstream cluster, make changes as needed to resolve the issues
 
@@ -51,7 +55,9 @@ Why is the website failing?
 - Troubleshoot a connectivity issue with a service and deployment named `lab-d`
 
 What can be done to resolve this issue?
-  
+
+---
+
 # Bonus Rounds
 
 ### 3 - Create a downstream cluster (terraform)
