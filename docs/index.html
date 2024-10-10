@@ -8,17 +8,16 @@
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
       @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
       body { font-family: 'Droid Serif'; }
       h1, h2, h3 {
         font-family: 'Yanone Kaffeesatz';
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-      img {
-          max-width: 100%;
-          max-height: 100%;
-          width: auto;
-      }
       code {
         white-space : pre-wrap !important;
       }
@@ -111,7 +110,9 @@ https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-con
 
 ---
 
-## TCP 3 way handshake
+class: center, middle
+
+### TCP - 3 way handshake
 
 ![tcphandshake](tcp-handshake.png)
 
@@ -125,11 +126,7 @@ Come back to this slide if it's useful to reference in the following slides
 
 ---
 
-class: center, middle
-
-#### Full TCP session lifecycle
-
-![tcpsession](tcp-full-session.png)
+![tcp-session](tcp-full-session-cropped.png)
 
 ???
 
@@ -155,6 +152,8 @@ Ask the audience about their understanding of what these messages mean
 E0924 22:18:04.357762   4491 memcache.go:265] couldn't get current server API group list: Get https://127.0.0.1:6443/api?timeout=32s: dial tcp 127.0.0.1:6443: connect: connection refused
 ```
 
+<br />
+
 ```
 zapp.brannig.an rke2[2783338]: {"level":"warn","ts":"2024-09-27T11:57:31.335237-0400","logger":"etcd-client","caller":"v3@v3.5.9-k3s1/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"etcd-endpoints://0xcd34db33ff/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: last connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
 ```
@@ -177,13 +176,19 @@ This can be temporary, for example if ingress-nginx is restarting, the port will
 curl: (28) Connection timed out after 2005 milliseconds
 ```
 
+<br />
+
 ```
 [ERROR] plugin/errors: 2 3994503566595593402.4565890997905689978. HINFO: read udp 10.42.2.188:45439->10.17.130.43:53: i/o timeout
 ```
 
+<br />
+
 ```
 E0912 19:08:00.809037       1 run.go:74] "command failed" err="unable to load configmap based request-header-client-ca-file: Get \"https://127.0.0.1:6443/api/v1/namespaces/kube-system/configmaps/extension-apiserver-authentication\": dial tcp 127.0.0.1:6443: i/o timeout"
 ```
+
+<br />
 
 ```
 2024-07-21T14:36:07.543416281Z E0721 14:36:07.543243       1 leaderelection.go:330] error retrieving resource lock kube-system/kube-scheduler: Get "https://127.0.0.1:6443/apis/coordination.k8s.io/v1/namespaces/kube-system/leases/kube-scheduler?timeout=5s": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
@@ -204,9 +209,13 @@ Can be a few reasons:
 philip-j-fry.com rancher-system-agent[14615]: time="2024-09-27T20:07:43-05:00" level=fatal msg="[K8s] encountered an error while attempting to update the secret: Put \"https://leela.bender.com/api/v1/namespaces/fleet-default/secrets/custom-8b78ea0e6d6d-machine-plan\": read tcp 10.47.248.198:59390->10.47.130.35:443: read: connection reset by peer"
 ```
 
+<br />
+
 ```
 ERROR: https://prof-farmsworth.edu/ping is not accessible (Recv failure: Connection reset by peer)
 ```
+
+<br />
 
 ```
 2024/07/26 14:46:51 [error] 29#29: *283832 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 172.16.224.253, server: hermes-conrad.jm, request: "GET /apis/snapshot.storage.k8s.io/v1beta1?timeout=32s HTTP/1.1", upstream: "http://10.42.4.181:80/apis/snapshot.storage.k8s.io/v1beta1?timeout=32s", host: "hermes-conrad.jm"
@@ -234,7 +243,7 @@ Equivalent to handing up the phone on a caller, an abrupt closure of the TCP ses
 2024/04/05 03:18:05 [error] 2681#2681: *2305048 connect() failed (113: No route to host) while connecting to upstream, client: 10.2.176.17, server: anchovies-on-pizza.it, request: "GET /hello HTTP/2.0", upstream: "http://10.42.96.250:1234/hello", host: "anchovies-on-pizza.it"
 ```
 
-Can sometimes be caused by firewalld REJECT rules, which use `reject-with icmp-host-prohibited`
+- Can sometimes be caused by firewalld REJECT rules, which use `reject-with icmp-host-prohibited`
 ```bash
 # iptables -nvL
   [...]
@@ -257,9 +266,13 @@ Uncommon but can be , some causes:
 Oct 17 20:36:18 old-bessie-1 rke2[12378]: time="2022-10-17T20:36:18Z" level=warning msg="Failed to get image from endpoint: Get \"https://planet.express.com/v2/\": dial tcp: lookup planet.express.com: i/o timeout"
 ```
 
+<br />
+
 ```
 Post "http://api.prod.domain.local/admin": dial tcp: lookup api.prod.domain.local: no such host
 ```
+
+<br />
 
 ```
 Caused by: java.net.UnknownHostException:  foo.bar.com
@@ -283,6 +296,8 @@ Lots of potential causes:
 class: center, middle
 
 # Time for the lab!
+
+Please join slack channel: #cfl-rancher-lab-oct-2024
 
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
