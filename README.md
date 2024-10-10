@@ -84,9 +84,3 @@ Instructions to deploy a webserver using fleet are provided in this link
 cd bonus-downstream-cluster # if not in the directory
 terraform destroy
 ```
-
----
-
-# !! Instructors only !!
-
-See `pre-work` directory for preparation of the initial lab environment
