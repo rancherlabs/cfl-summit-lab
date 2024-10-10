@@ -53,6 +53,7 @@ No sheep
 --
 
 - Quick presentation to cover some relevant topics (~15mins)
+
 - Lab
 
 --
@@ -61,7 +62,9 @@ No sheep
 
 In the lab environment the following has been pre-created:
 - Rancher
+
 - RKE2 downstream clusters
+
 - Some deployments to troubleshoot
 
 ---
@@ -92,8 +95,11 @@ A basic definition of webhooks, more details in the following slides
 
 Allowing an approve/deny stage for API requests, there are some common use cases:
   - Ensuring standards - eg, labels, resource limits
+
   - Security tools
+
   - Protection of important objects/CRDs
+
   - Rejecting invalid spec
 
 --
@@ -102,7 +108,9 @@ Allowing an approve/deny stage for API requests, there are some common use cases
 
 Allowing changes to be injected into API objects, some common use cases:
   - Sidecar injection (Istio, for eg)
+
   - Adding context - eg, labels, annotations etc.
+
   - Removing invalid fields
 
 ---
@@ -125,19 +133,49 @@ https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-con
 
 ---
 
-## Common network issues
+## Webhook best practices
+
+- Exempt system namespaces (kube-system, cattle-system, etc.), ideally with both of the below:
+  - (**recommended**) Exemption can be in the webhook config CRD with a `namespaceSelector`
+
+  - Depending on the webhook - labels or flags
+
+- Fail open - `failurePolicy: Ignore`
+
+- Multiple webhook pods for HA
+
+- Avoid deploying unecessary webhooks - they add latency
+
+- Ensure webhook config CRD objects are cleaned up if apps are deleted
+
+???
+
+When a webhook is offline, the scope that it applies to can block related API calls
+
+This can be problematic during cluster upgrades, roll backs, restores or node replacement
+
+- Adding an exemption to the webhook config CRD will prevent kube-api from making the request to the webhook
+- Adding labels/flags will only instruct the webhook to not apply it's logic to those requests - if it's down this doesn't help
 
 ---
 
 class: center, middle
 
-## Wait, first let's step back a bit..
+# Common network issues
 
 --
 
 class: center, middle
 
+## Wait, first let's step back a bit..
+
+---
+
+class: center, middle
+
 ### TCP - 3 way handshake
+
+--
 
 ![tcphandshake](tcp-handshake.png)
 
@@ -164,7 +202,9 @@ class: center, middle
 
 ---
 
-## Common network issues
+class: center, middle
+
+# Common network issues
 
 ???
 
@@ -172,7 +212,7 @@ Ask the audience about their understanding of what these messages mean
 
 ---
 
-### connection refused
+## connection refused
 
 ```bash
 # kubectl describe pod -n kube-system rke2-canal-zoidberg
@@ -196,7 +236,7 @@ Can be a few reasons:
 
 ---
 
-### i/o timeout
+## i/o timeout
 
 ```bash
 # curl localhost:8080
@@ -231,7 +271,7 @@ Can be a few reasons:
 
 ---
 
-### connection reset by peer
+## connection reset by peer
 
 ```
 philip-j-fry.com rancher-system-agent[14615]: time="2024-09-27T20:07:43-05:00" level=fatal msg="[K8s] encountered an error while attempting to update the secret: Put \"https://leela.bender.com/api/v1/namespaces/fleet-default/secrets/custom-8b78ea0e6d6d-machine-plan\": read tcp 10.47.248.198:59390->10.47.130.35:443: read: connection reset by peer"
@@ -288,7 +328,7 @@ Uncommon but can be , some causes:
 
 ---
 
-### dns failure
+## dns failure
 
 ```
 Oct 17 20:36:18 old-bessie-1 rke2[12378]: time="2022-10-17T20:36:18Z" level=warning msg="Failed to get image from endpoint: Get \"https://planet.express.com/v2/\": dial tcp: lookup planet.express.com: i/o timeout"
@@ -318,6 +358,12 @@ Lots of potential causes:
 - Based on the above, focus on the key areas:
   - For external, checking coredns logs is often a useful first step, and verifying from another host on the network
   - For internal, checking against each coredns pod (endpoint) to eliminate overlay pod/overlay issues
+
+---
+
+class: center, middle
+
+![lab time](lab-time.webp)
 
 ---
 

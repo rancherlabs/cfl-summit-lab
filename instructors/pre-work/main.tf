@@ -195,6 +195,6 @@ module "downstream_nodes" {
 locals {
   rancher-node-ip = module.rancher_rke2_cluster.instances_public_ip
   rancher-node-key = "${basename(module.rancher_rke2_cluster.ssh_key_path)}"
-  downstream-node-ips = [for i, v in flatten(module.downstream_nodes[*].instances_public_ip) : "${i+1}-ds-${var.prefix}: ${v}"]
-  downstream-node-keys = [for i, v in module.downstream_nodes[*].ssh_key_path : "${i+1}-ds-${var.prefix}: ${basename(v)}"]  
+  downstream-node-ips = [for i, v in flatten(module.downstream_nodes[*].instances_public_ip) : "${i+1}-${var.prefix}: ${v}"]
+  downstream-node-keys = [for i, v in module.downstream_nodes[*].ssh_key_path : "${i+1}-${var.prefix}: ${basename(v)}"]
 }
