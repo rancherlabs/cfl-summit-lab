@@ -34,7 +34,7 @@ The issue is known to affect changes in the `deployment-lab` namespace, like cre
 
 All deployments for this lab have been created in the `lab` namespace of your downstream cluster, make changes as needed to resolve the issues
 
-**Note**, there is a test pod available, created by a deployment named `test-pod` that should be used for troubleshooting connectivity
+**Note**, there is a test pod available, created by a deployment named `test-pod` in `default` that should be used for troubleshooting connectivity
 
 #### 2a - Network issue
 
